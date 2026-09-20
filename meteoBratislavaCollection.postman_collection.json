@@ -1,0 +1,139 @@
+{
+  "info": {
+    "_postman_id": "fdf76f31-9072-4205-9f2e-700628dd5f74",
+    "name": "meteoBratislavaCollection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "54136858",
+    "_collection_link": "https://go.postman.co/collection/54136858-fdf76f31-9072-4205-9f2e-700628dd5f74?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "meteo bratislava",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\nconst jsonData = pm.response.json();\r\n\r\npm.test(\"Current weather data is present\", function () {\r\n    pm.expect(jsonData.current).to.have.property(\"temperature_2m\");\r\n    pm.expect(jsonData.current).to.have.property(\"wind_speed_10m\");\r\n});\r\n\r\npm.test(\"timezone is GMT\", function () {\r\n        pm.expect(jsonData.timezone).to.equal(\"GMT\");\r\n});\r\n\r\npm.test(\"hour and minute in the response\", function () {    \r\n    const time = jsonData.current.time;  \r\n    console.log(\"hour and minute: \" + time.substring(11,16));  \r\n});\r\n\r\n"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.open-meteo.com/v1/forecast?latitude={{latBratislava}}&longitude={{longBratislava}}&current=temperature_2m,wind_speed_10m",
+          "protocol": "https",
+          "host": [
+            "api",
+            "open-meteo",
+            "com"
+          ],
+          "path": [
+            "v1",
+            "forecast"
+          ],
+          "query": [
+            {
+              "key": "latitude",
+              "value": "{{latBratislava}}"
+            },
+            {
+              "key": "longitude",
+              "value": "{{longBratislava}}"
+            },
+            {
+              "key": "current",
+              "value": "temperature_2m,wind_speed_10m"
+            },
+            {
+              "key": "hourly",
+              "value": "temperature_2m,relative_humidity_2m,wind_speed_10m",
+              "disabled": true
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "meteo Bratislava error 400",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(400);\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.open-meteo.com/v1/forecast?latitude=48.14",
+          "protocol": "https",
+          "host": [
+            "api",
+            "open-meteo",
+            "com"
+          ],
+          "path": [
+            "v1",
+            "forecast"
+          ],
+          "query": [
+            {
+              "key": "latitude",
+              "value": "48.14"
+            },
+            {
+              "key": "longitude",
+              "value": "17.10",
+              "disabled": true
+            },
+            {
+              "key": "current",
+              "value": "temperature_2m,wind_speed_10m",
+              "disabled": true
+            },
+            {
+              "key": "hourly",
+              "value": "temperature_2m,relative_humidity_2m,wind_speed_10m",
+              "disabled": true
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "latBratislava",
+      "value": "48.14"
+    },
+    {
+      "key": "longBratislava",
+      "value": "17.11"
+    },
+    {
+      "key": "latPrague",
+      "value": "50.07"
+    },
+    {
+      "key": "longPrague",
+      "value": "14.42"
+    }
+  ]
+}
